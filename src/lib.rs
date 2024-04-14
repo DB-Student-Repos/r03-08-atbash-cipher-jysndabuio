@@ -12,8 +12,15 @@ pub fn collection()-> HashMap<char, char> {
 }
 
 pub fn encode(plain: &str) -> String {
+    let word: String = plain.chars().filter(|&x| x.is_ascii_alphabetic()).collect()
     let code_chars = collection();
-    plain.chars().filter_map(|x| code_chars.get(&x).cloned()).collect()
+    let mut cipher = String::new(); 
+    for x in word.chars(){
+        match x {
+            x.is_digit(10) => cipher.push(x),
+            _ => cipher.push(*code_chars.get(&x).unwrap_or(&x)),
+        }
+    }
 }
 /// "Decipher" with the Atbash cipher.
 pub fn decode(cipher: &str) -> String {
